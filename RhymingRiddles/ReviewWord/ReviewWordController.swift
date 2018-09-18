@@ -30,9 +30,6 @@ class ReviewWordController {
         saveToPersistentStore()
     }
     
-    
-    
-    
     //MARK: Persistence
     
     func fileURL() -> URL {
@@ -67,7 +64,12 @@ class ReviewWordController {
         
     }
 }
-
+class ReviewWord {
+    var reviewWord: String
+    init(reviewWord: String) {
+        self.reviewWord = reviewWord
+    }
+}
 
 //
 //import CoreData

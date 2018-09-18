@@ -15,11 +15,6 @@ class GameController {
     var points = 50
     //var isCorrect: Bool?
     
-    func incrementPoints() {
-        points += 10
-        questionCount += 1
-    }
-    
     func nextWord(completion: @escaping (String?, Word?, Word?) -> Void) {
         let questionWord = WordController.gameWordsArray[Int(arc4random_uniform(UInt32(WordController.gameWordsArray.count)))] //***
         
@@ -32,4 +27,5 @@ class GameController {
             })
         }
     }
+    
 }

@@ -9,30 +9,41 @@
 import UIKit
 
 class GameDifficultyViewController: UIViewController {
-
+    
     @IBAction func difficultyTapped(_ sender: UIButton) {
-
-        switch sender {
-        case levelOne :
+        
+        switch sender.tag {
+        case 1:
+            print("One tapped")
             WordController.gameWordsArray = Tests.shared.testOne
-        case levelTwo :
+        case 2:
             WordController.gameWordsArray = Tests.shared.testTwo
-        case levelThree :
+        case 3:
             WordController.gameWordsArray = Tests.shared.testThree
-        case levelFour :
+        case 4:
             WordController.gameWordsArray = Tests.shared.testFour
-        case levelFive :
+        case 5:
             WordController.gameWordsArray = Tests.shared.testFive
-        case levelSix :
+        case 6:
             WordController.gameWordsArray = Tests.shared.testSix
-        case levelSeven :
+        case 7:
             WordController.gameWordsArray = Tests.shared.testSeven
-        case levelEight :
+        case 8:
             WordController.gameWordsArray = Tests.shared.testEight
         default:
             WordController.gameWordsArray = Tests.shared.testEight
         }
-        performSegue(withIdentifier: "toGame", sender: self)
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.autoreverse], animations: {
+            sender.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        }) { (success) in
+            if success {
+                UIView.animate(withDuration: 2, animations: {
+                    
+                    self.performSegue(withIdentifier: "toGame", sender: self)
+                }, completion: nil)
+            }
+            sender.transform = .identity
+        }
     }
     
     
@@ -44,7 +55,7 @@ class GameDifficultyViewController: UIViewController {
     @IBOutlet weak var levelSix: UIButton!
     @IBOutlet weak var levelSeven: UIButton!
     @IBOutlet weak var levelEight: UIButton!
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

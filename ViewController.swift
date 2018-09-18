@@ -29,16 +29,32 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var buttonTwo: UIButton!
     @IBAction func buttonOneTapped(_ sender: UIButton) {
-        UIView.animate(withDuration: 0.2, delay: 0, options: [.autoreverse], animations: {
+        UIView.animate(withDuration: 0.35, delay: 0, options: [.autoreverse], animations: {
             self.buttoneOne.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
         }) { (_) in
             self.performSegue(withIdentifier: "playGame", sender: self)
+            self.buttoneOne.transform = .identity
         }
     }
 
     @IBAction func buttonTwoTapped(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.35, delay: 0, options: [.autoreverse], animations: {
+            self.buttonTwo.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
+        }) { (_) in
+            self.performSegue(withIdentifier: "reviewCards", sender: self)
+            self.buttonTwo.transform = .identity
+        }
     }
 }
+
+//
+//UIView.animate(withDuration: 0.2, delay: 0, options: [.autoreverse], animations: {
+//    self.buttonTwo.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
+//    self.buttonTwo.transform = .identity
+//
+//})
+
+
 //self.buttoneOne.transform = CGAffineTransform(scaleX: 0, y: 0)
 //
 //UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {

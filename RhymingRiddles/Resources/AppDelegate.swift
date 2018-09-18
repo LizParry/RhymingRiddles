@@ -16,13 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-            
-        DictionaryTermController.fetchWord(with: "test") { (definition) in
-            print("Definition: \(definition)")
-            
+//
+//        DictionaryTermController.fetchWord(with: "test") { (definition) in
+//            print("Definition: \(definition)")
+        
             //if "nil" print this isnt a word or there's no definition available
             //on dictinary page- instructions- be sure to type in the word correctly
-        }
+        //}
         return true
     }
 

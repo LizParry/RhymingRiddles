@@ -21,8 +21,6 @@ class ReviewWordViewController: UIViewController {
     var incorrectAnswer: Word?
     var questionWord: String?
     
-    
-    
     @IBOutlet weak var buttonTwoOutlet: UIButton!
     @IBOutlet weak var buttonOneOutlet: UIButton!
     @IBOutlet weak var questionWordLabel: UILabel!

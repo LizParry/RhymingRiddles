@@ -12,8 +12,9 @@
 import Foundation
 class DictionaryTermController {
     
-    let shared = DictionaryTermController()
-    static func fetchWord(with wordID: String, completion: @escaping ((String?) -> Void)) {
+    static let shared = DictionaryTermController()
+    static var definition: String?
+    static func fetchWord(wordID: String, completion: @escaping ((String?) -> Void)) {
         let appId = "7b22aaa6"
         let appKey = "64bc4b923cde406e75c6908a17c7691a"
         let language = "en"
@@ -29,15 +30,16 @@ class DictionaryTermController {
             {
                 do {
                     let resultsDictionary = try JSONDecoder().decode(ResultsDictionary.self, from: data)
-                    completion(resultsDictionary.results.first?.lexicalEntries.first?.entries.first?.senses.first?.definitions.first)
-//                    print(definitions)
+                    let definition = resultsDictionary.results.first?.lexicalEntries.first?.entries.first?.senses.first?.definitions.first
+                    self.definition = definition
+                    completion(definition)
                 } catch {
                     print(error)
                     completion(nil)
                     return
                 }
             } else {
-                print(error?.localizedDescription)
+                print("There was an error getting a definition: \(error?.localizedDescription)")
             }
         }).resume()
     }
