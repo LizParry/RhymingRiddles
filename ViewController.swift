@@ -26,7 +26,6 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBOutlet weak var buttoneOne: UIButton!
-    
     @IBOutlet weak var buttonTwo: UIButton!
     @IBAction func buttonOneTapped(_ sender: UIButton) {
         UIView.animate(withDuration: 0.35, delay: 0, options: [.autoreverse], animations: {

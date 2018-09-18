@@ -8,25 +8,26 @@
 
 import UIKit
 
-class ReviewWordTableViewController: UITableViewController {
+class ReviewWordTableViewController: UITableViewController, UITraitEnvironment {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         ReviewWordController.shared.loadFromPersistentStore()
+        UIView.trait
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         tableView.reloadData()
     }
+    
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ReviewWordController.shared.wordsToReview.count
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "toReviewWordTable", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reviewWordCell", for: indexPath)
         let reviewWord = ReviewWordController.shared.wordsToReview[indexPath.row]
         cell.textLabel?.text = reviewWord
         return cell
@@ -41,5 +42,6 @@ class ReviewWordTableViewController: UITableViewController {
             ReviewWordController.shared.delete(wordToReview: scoreToDelete)
         }
     }
+
 }
 

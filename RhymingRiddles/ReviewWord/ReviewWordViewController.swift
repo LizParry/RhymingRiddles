@@ -115,5 +115,11 @@ class ReviewWordViewController: UIViewController {
         getWords()
         return
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toReviewTable" {
+            guard let destinationVC = segue.destination as? ReviewWordTableViewController else {return}
+            
+        }
+    }
     
 }

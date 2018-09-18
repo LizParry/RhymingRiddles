@@ -14,6 +14,11 @@ class ScoreTableViewController: UITableViewController {
         super.viewDidLoad()
         ScoreController.shared.loadFromPersistentStore()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
@@ -23,7 +28,7 @@ class ScoreTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "toScores", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "scoreCell", for: indexPath)
         let score = ScoreController.shared.scores[indexPath.row]
         cell.textLabel?.text = "\(score.score)"
         cell.detailTextLabel?.text = "\(score.timestamp)"
@@ -39,4 +44,5 @@ class ScoreTableViewController: UITableViewController {
             ScoreController.shared.deleteScore(score: scoreToDelete)
         }
     }
+    
 }
