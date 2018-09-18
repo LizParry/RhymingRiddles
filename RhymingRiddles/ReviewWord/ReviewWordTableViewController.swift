@@ -9,7 +9,7 @@
 import UIKit
 
 class ReviewWordTableViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         ReviewWordController.shared.loadFromPersistentStore()
@@ -19,11 +19,11 @@ class ReviewWordTableViewController: UITableViewController {
         tableView.reloadData()
     }
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return ReviewWordController.shared.wordsToReview.count
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "toReviewWordTable", for: indexPath)
@@ -31,7 +31,7 @@ class ReviewWordTableViewController: UITableViewController {
         cell.textLabel?.text = reviewWord
         return cell
     }
-   
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -39,6 +39,7 @@ class ReviewWordTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
             let scoreToDelete = ReviewWordController.shared.wordsToReview[indexPath.row]
             ReviewWordController.shared.delete(wordToReview: scoreToDelete)
+        }
     }
 }
- 
+
