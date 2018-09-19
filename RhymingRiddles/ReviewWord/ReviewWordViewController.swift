@@ -21,6 +21,7 @@ class ReviewWordViewController: UIViewController {
     var incorrectAnswer: Word?
     var questionWord: String?
     
+    @IBOutlet weak var starButtonOutlet: UIButton!
     @IBOutlet weak var buttonTwoOutlet: UIButton!
     @IBOutlet weak var buttonOneOutlet: UIButton!
     @IBOutlet weak var questionWordLabel: UILabel!
@@ -30,6 +31,9 @@ class ReviewWordViewController: UIViewController {
         } else {
             incorrectAnswerAlert()
         }
+    }
+    @IBAction func starButton(_ sender: UIButton) {
+//        self.performSegue(withIdentifier: "toSplitScreen", sender: self)
     }
     @IBAction func buttonOneTapped(_ sender: Any) {
         if buttonOneOutlet.titleLabel?.text == correctAnswer?.word {
@@ -44,7 +48,11 @@ class ReviewWordViewController: UIViewController {
         ReviewWordController.shared.delete(wordToReview: questionWord!)
         let alert = UIAlertController(title: "This word removed from your Words to Review list.", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "Okay", style: .default) { (action) in
+            if ReviewWordController.shared.wordsToReview.count == 0 {
+                self.dismiss(animated: true, completion: nil)
+            } else {
             self.getWords()
+            }
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)

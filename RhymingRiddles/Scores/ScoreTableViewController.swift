@@ -8,11 +8,18 @@
 
 import UIKit
 
-class ScoreTableViewController: UITableViewController {
+class ScoreTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBAction func closeTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         ScoreController.shared.loadFromPersistentStore()
+        tableView.dataSource = self
+        tableView.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -22,31 +29,31 @@ class ScoreTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ScoreController.shared.scores.count
     }
 
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "scoreCell", for: indexPath)
         let score = ScoreController.shared.scores[indexPath.row]
-        cell.textLabel?.text = "Score: $\(score.score)"
+        cell.textLabel?.text = "\(score.levelNumber)     Score: $ \(score.score)"
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
         //cell.textLabel?.textColor = UIColor.
         
-        cell.detailTextLabel?.text = "Date: \(dateFormatter.string(from: score.timestamp))"
+        cell.detailTextLabel?.text = "\(dateFormatter.string(from: score.timestamp))"
         return cell
     }
 
    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            tableView.deleteRows(at: [indexPath], with: .fade)
             let scoreToDelete = ScoreController.shared.scores[indexPath.row]
             ScoreController.shared.deleteScore(score: scoreToDelete)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     

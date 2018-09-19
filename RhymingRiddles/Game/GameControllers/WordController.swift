@@ -39,6 +39,7 @@ class WordController: Decodable {
             do {
                 let correctAnswers = try JSONDecoder().decode([Word].self, from: data)
                 let correctAnswer = correctAnswers[0]
+                
                 correctAnswer.isCorrect = true
                 //self.correctAnswer = [correctAnswers[Int(arc4random_uniform(UInt32(3)))]]
                 //make index random except first dont allow first index
@@ -75,6 +76,7 @@ class WordController: Decodable {
                 let incorrectAnswers = try JSONDecoder().decode([Word].self, from: data)
                
                 let incorrectAnswer = incorrectAnswers[2]
+                
                 incorrectAnswer.isCorrect = false
                 completion(incorrectAnswer)
             } catch {

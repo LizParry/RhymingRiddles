@@ -10,9 +10,13 @@ import Foundation
 class ScoreController: Codable {
     static var shared = ScoreController()
     var scores = [Score]()
-    
-    func addScore(score: Int) {
-        let newScore = Score(score: score)
+    var levelNumber: String?
+    var score: Int?
+        
+    func addScore(score: Int, levelNumber: String) {
+        let newScore = Score(score: score, levelNumber: levelNumber)
+        self.levelNumber = levelNumber
+        self.score = score
         scores.append(newScore)
         saveToPersistentStore()
     }
@@ -55,9 +59,11 @@ class ScoreController: Codable {
 
 class Score: Equatable, Codable {
     var score: Int
+    var levelNumber: String
     var timestamp = Date()
-    init(score: Int) {
+    init(score: Int, levelNumber: String) {
         self.score = score
+        self.levelNumber = levelNumber
     }
     static func == (lhs: Score, rhs: Score) -> Bool {
         return(lhs.score == rhs.score && lhs.timestamp == rhs.timestamp)

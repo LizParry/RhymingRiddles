@@ -14,18 +14,18 @@ class GameViewController: UIViewController {
     var correctAnswer: Word?
     var incorrectAnswer: Word?
     var questionWord: String?
-    var originalPosition: CGPoint! //cant subclass value types
+    //var originalPosition: CGPoint! //cant subclass value types
     var questionCount = 0
-
+    
     @IBOutlet weak var wallet: UIImageView!
     @IBOutlet weak var patrolImage: UIImageView!
     @IBOutlet weak var pointsLabel: UILabel!
     @IBOutlet weak var questionWordLabel: UILabel!
     @IBOutlet weak var buttonOneOutlet: UIButton!
     @IBOutlet weak var buttonTwoOutlet: UIButton!
-
+    
     //MARK: IBActions
-
+    
     @IBAction func addToReviewTapped(_ sender: Any) {
         ReviewWordController.shared.save(questionWord: questionWord!)
         let alert = UIAlertController(title: "This word was added to your Words to Review list.", message: nil, preferredStyle: .alert)
@@ -70,9 +70,9 @@ class GameViewController: UIViewController {
     @IBAction func close(_ sender: Any) {
         //dismiss(animated: true, completion: nil)
         self.performSegue(withIdentifier: "unwindToViewController1", sender: self)
-
+        
     }
-   
+    
     //MARK: Word Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,11 +90,14 @@ class GameViewController: UIViewController {
             self.incorrectAnswer = incorrectAnswer
             
             DispatchQueue.main.async {
-                    self.updateViews(with: questionWord, and: correctAnswer, and: incorrectAnswer)
-                    if self.questionCount == 20 {
+                self.updateViews(with: questionWord, and: correctAnswer, and: incorrectAnswer)
+                if self.questionCount == 3 {
+                    if GameController.shared.points <= 0{
+                        self.loseGame()
+                    } else {
                         self.wonGame()
-                    
-                } 
+                    }
+                }
             }
         }
     }
@@ -115,18 +118,37 @@ class GameViewController: UIViewController {
     
     //MARK: Alerts
     func wonGame() {
-        let alert = UIAlertController(title: "You Won!", message: "Your score is \(GameController.shared.points)!", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Okay", style: .default, handler: nil)
+        let alert = UIAlertController(title: "CONGRATS, YOU WON!", message: "Your score is \(GameController.shared.points)!", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Okay", style: .default) { (_) in
+            self.performSegue(withIdentifier: "unwindToViewController1", sender: self)
+            
+        }
         let saveScore = UIAlertAction(title: "Save Score", style: .default) { (_) in
-            ScoreController.shared.addScore(score: GameController.shared.points)
+            ScoreController.shared.addScore(score: GameController.shared.points, levelNumber: ScoreController.shared.levelNumber!)
+            self.performSegue(withIdentifier: "unwindToViewController1", sender: self)
+            
         }
         alert.addAction(saveScore)
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
-        GameController.shared.points = 0
+        GameController.shared.questionCount = 0
         return
     }
-    
+    func loseGame() {
+        let alert = UIAlertController(title: "YOU LOST!", message: "Your score is \(GameController.shared.points)", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Okay", style: .default) { (_) in
+            self.performSegue(withIdentifier: "unwindToViewController1", sender: self)
+        }
+        let saveScore = UIAlertAction(title: "Save Score", style: .default) { (_) in
+            ScoreController.shared.addScore(score: GameController.shared.points, levelNumber: ScoreController.shared.levelNumber!)
+            self.performSegue(withIdentifier: "unwindToViewController1", sender: self)
+        }
+        alert.addAction(saveScore)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+        GameController.shared.questionCount = 0
+        return
+    }
     func incorrectAnswerAlert() {
         let alert = UIAlertController(title: "Uh Oh! You owe the Pronunciation Patrol $10.", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "Better luck next time.", style: .default) { (action) in
@@ -141,7 +163,7 @@ class GameViewController: UIViewController {
     func correctAnswerAlert() {
         let alert = UIAlertController(title: "You earned $10.", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "Keep up the good work.", style: .default) { (action) in
-                       self.getWords()
+            self.getWords()
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
