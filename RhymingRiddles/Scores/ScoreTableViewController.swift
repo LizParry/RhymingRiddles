@@ -30,8 +30,13 @@ class ScoreTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "scoreCell", for: indexPath)
         let score = ScoreController.shared.scores[indexPath.row]
-        cell.textLabel?.text = "\(score.score)"
-        cell.detailTextLabel?.text = "\(score.timestamp)"
+        cell.textLabel?.text = "Score: $\(score.score)"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        //cell.textLabel?.textColor = UIColor.
+        
+        cell.detailTextLabel?.text = "Date: \(dateFormatter.string(from: score.timestamp))"
         return cell
     }
 

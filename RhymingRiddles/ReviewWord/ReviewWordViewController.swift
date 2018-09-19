@@ -43,7 +43,9 @@ class ReviewWordViewController: UIViewController {
         //ReviewWordController.shared.wordsToReview.remove(at: index!)
         ReviewWordController.shared.delete(wordToReview: questionWord!)
         let alert = UIAlertController(title: "This word removed from your Words to Review list.", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Okay", style: .default, handler: nil)
+        let action = UIAlertAction(title: "Okay", style: .default) { (action) in
+            self.getWords()
+        }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
         return
@@ -75,9 +77,6 @@ class ReviewWordViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.updateViews(with: questionWord, and: correctAnswer, and: incorrectAnswer)
-               
-                    
-                
             }
         }
     }
@@ -98,28 +97,20 @@ class ReviewWordViewController: UIViewController {
     func incorrectAnswerAlert() {
         
         let alert = UIAlertController(title: "Uh Oh! That's incorrect.", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Keep trying.", style: .default, handler: nil)
+        let action = UIAlertAction(title: "Keep trying.", style: .default) { (action) in
+            self.getWords()
+        }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
-        getWords()
         return
     }
     func correctAnswerAlert() {
         let alert = UIAlertController(title: "That's correct.", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "Keep up the good work.", style: .default) { (action) in
             self.getWords()
-            
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
-        getWords()
         return
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toReviewTable" {
-            guard let destinationVC = segue.destination as? ReviewWordTableViewController else {return}
-            
-        }
-    }
-    
 }

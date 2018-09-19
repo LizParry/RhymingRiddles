@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     @IBAction func prepareForUnwind(segue: UIStoryboardSegue) {
         
     }
+    
    //if review words array is empty, alert
     override func viewDidLoad() {
         super.viewDidLoad()
