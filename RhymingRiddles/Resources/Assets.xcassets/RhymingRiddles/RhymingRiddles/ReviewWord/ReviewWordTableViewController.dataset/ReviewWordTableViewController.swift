@@ -8,20 +8,18 @@
 
 import UIKit
 
-class ReviewWordTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ReviewWordTableViewController: UITableViewController {
     var reviewWord: String?
     var definition: String?
     override func viewDidLoad() {
         super.viewDidLoad()
         ReviewWordController.shared.loadFromPersistentStore()
-        tableView.delegate = self
-        tableView.dataSource = self
+        view.backgroundColor = .white
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         tableView.reloadData()
     }
-    @IBOutlet weak var tableView: UITableView!
     
     func getDefinition() {
         DictionaryTermController.fetchWord(wordID: reviewWord!, completion: { (definition) in
@@ -37,26 +35,23 @@ class ReviewWordTableViewController: UIViewController, UITableViewDataSource, UI
     
     // MARK: - Table view data source
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ReviewWordController.shared.wordsToReview.count
     }
-    @IBAction func closeTapped(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
-    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewWordCell", for: indexPath)
         let reviewWord = ReviewWordController.shared.wordsToReview[indexPath.row]
         
         DictionaryTermController.fetchWord(wordID: reviewWord) { (definition) in
             
             DispatchQueue.main.async {
-                //guard let definition = definition else {return}
-                cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "\(reviewWord)"/*: " + definition
-                //if !(definition != nil) {
+                guard let definition = definition else {return}
+                
+                cell.textLabel?.text = "\(reviewWord): " + definition
+                if !(definition != nil) {
                     cell.textLabel?.text = definition + ": Sorry. You're on your own. There's no definition available for this word."
-                }*/
+                }
             }
         }
         self.reviewWord = reviewWord
@@ -64,13 +59,13 @@ class ReviewWordTableViewController: UIViewController, UITableViewDataSource, UI
     }
     
     // Override to support editing the table view.
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            // Delete the row from the data source
-//            let scoreToDelete = ReviewWordController.shared.wordsToReview[indexPath.row]
-//            ReviewWordController.shared.delete(wordToReview: scoreToDelete)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            let scoreToDelete = ReviewWordController.shared.wordsToReview[indexPath.row]
+            ReviewWordController.shared.delete(wordToReview: scoreToDelete)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }
 

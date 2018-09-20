@@ -91,7 +91,7 @@ class GameViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.updateViews(with: questionWord, and: correctAnswer, and: incorrectAnswer)
-                if self.questionCount == 20 {
+                if self.questionCount == 3 {
                     if GameController.shared.points <= 0{
                         self.loseGame()
                     } else {

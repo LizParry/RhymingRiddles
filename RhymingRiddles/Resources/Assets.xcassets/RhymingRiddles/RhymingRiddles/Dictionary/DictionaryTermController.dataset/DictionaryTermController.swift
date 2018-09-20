@@ -39,7 +39,7 @@ class DictionaryTermController {
                     return
                 }
             } else {
-                print("There was an error getting a definition: \(error?.localizedDescription ?? "")")
+                print("There was an error getting a definition: \(error?.localizedDescription)")
             }
         }).resume()
     }
